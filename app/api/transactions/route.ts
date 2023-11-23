@@ -1,7 +1,7 @@
-import {AccountType} from "@/lib/AccountType";
+import {AccountType} from "@/lib/csv/AccountType";
 import Papa from 'papaparse';
 import {Readable} from "stream";
-import {TransactionBatchFactory} from "@/lib/TransactionFactory";
+import {TransactionBatchFactory} from "@/lib/csv/TransactionFactory";
 import {DI} from "@/lib/DI";
 
 /**
@@ -53,8 +53,8 @@ export async function POST(request: Request): Promise<Response> {
   })
 
   // Create transaction batch
-  const transactionBatch = TransactionBatchFactory.createTransactionBatch(
-    { id: 0, type: type },
+  const transactionBatch = TransactionBatchFactory.createCsvRowDataBatch(
+    { id: 0, title: "My Account", type: type.toString() },
     data
   )
 

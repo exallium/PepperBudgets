@@ -1,4 +1,5 @@
-import {NormalizedTransaction} from "@/lib/NormalizedTransaction";
+import {CsvRowData} from "@/lib/csv/CsvRowData";
+import {Transaction} from "@prisma/client";
 
 interface BrimTransactionRecord {
   no: string,
@@ -12,7 +13,7 @@ interface BrimTransactionRecord {
   last_4_digits: string
 }
 
-export class BrimTransaction implements Transaction {
+export class BrimCsvRowData implements CsvRowData {
 
   private readonly account_id: number
   private readonly record: BrimTransactionRecord
@@ -22,13 +23,14 @@ export class BrimTransaction implements Transaction {
     this.record = record
   }
 
-  toNormalizedTransaction(): NormalizedTransaction {
-    return new NormalizedTransaction({
-      account_id: this.account_id,
-      amount: Number.parseFloat(this.record.amount),
-      date: this.record.posted_date,
-      category: this.record.category,
+  toTransaction(): Transaction {
+    return {
+      id: -1,
+      accountId: this.account_id,
+      amount: BigInt(this.record.amount),
+      date: new Date(this.record.posted_date),
+      categoryId: -1,
       description: this.record.description
-    });
+    };
   }
 }

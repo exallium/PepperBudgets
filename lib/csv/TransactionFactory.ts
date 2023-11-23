@@ -1,13 +1,13 @@
-import {Account} from "@/lib/Account";
-import {AccountType} from "@/lib/AccountType";
-import {BrimTransaction} from "@/lib/BrimTransaction";
-import {TransactionBatch} from "@/lib/TransactionBatch";
+import {AccountType} from "@/lib/csv/AccountType";
+import {BrimCsvRowData} from "@/lib/csv/BrimCsvRowData";
+import {CsvRowDataBatch} from "@/lib/csv/CsvRowDataBatch";
+import {Account} from "@prisma/client";
 
 export class TransactionBatchFactory {
 
-  private static createBrimFinancialTransactionBatch(account_id: number, data: string[]): TransactionBatch {
+  private static createBrimFinancialCsvRowDataBatch(account_id: number, data: string[]): CsvRowDataBatch {
     const transactions = data.map(row => {
-      return new BrimTransaction(
+      return new BrimCsvRowData(
         account_id,
         {
           no: row[0],
@@ -23,16 +23,18 @@ export class TransactionBatchFactory {
       )
     })
 
-    return new TransactionBatch(transactions)
+    return new CsvRowDataBatch(transactions)
   }
 
-  static createTransactionBatch(account: Account, data: string[]): TransactionBatch {
+  static createCsvRowDataBatch(account: Account, data: string[]): CsvRowDataBatch {
     switch (account.type) {
       case AccountType.TD_CANADA_TRUST:
         throw "not implemented"
       case AccountType.BRIM_FINANCIAL:
-        return this.createBrimFinancialTransactionBatch(account.id, data)
+        return this.createBrimFinancialCsvRowDataBatch(account.id, data)
       case AccountType.AMERICAN_EXPRESS_CANADA:
+        throw "not implemented"
+      default:
         throw "not implemented"
     }
   }

@@ -1,5 +1,5 @@
-import DataStore from "@/lib/DataStore";
-import {TestDataStore} from "@/lib/TestDataStore";
+import DataStore from "@/lib/store/DataStore";
+import {TestDataStore} from "@/lib/store/TestDataStore";
 
 export class DI {
 
