@@ -29,7 +29,7 @@ export class BrimCsvRowData implements CsvRowData {
       accountId: this.account_id,
       amount: BigInt(this.record.amount),
       date: new Date(this.record.posted_date),
-      categoryId: -1,
+      categoryId: null,
       description: this.record.description
     };
   }

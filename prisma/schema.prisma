@@ -12,25 +12,25 @@ datasource db {
 
 model Account {
   id          Int           @id @default(autoincrement())
-  title       String        @db.VarChar(255)
+  title       String        @unique @db.VarChar(255)
   type        String        @db.VarChar(255)
   transaction Transaction[]
 }
 
 model Transaction {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   accountId   Int
-  account     Account  @relation(fields: [accountId], references: [id])
-  date        DateTime @db.Date()
-  description String   @db.VarChar(255)
-  amount      BigInt   @db.BigInt()
-  categoryId  Int
-  category    Category @relation(fields: [categoryId], references: [id])
+  account     Account   @relation(fields: [accountId], references: [id])
+  date        DateTime  @db.Date()
+  description String    @db.VarChar(255)
+  amount      BigInt    @db.BigInt()
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
   id          Int           @id @default(autoincrement())
-  title       String        @db.VarChar(255)
+  title       String        @unique @db.VarChar(255)
   budget      BigInt        @db.BigInt()
   transaction Transaction[]
 }
