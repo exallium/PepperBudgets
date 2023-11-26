@@ -1,5 +1,5 @@
 import {TransactionBatch} from "@/lib/csv/TransactionBatch";
-import {CsvRowData} from "@/lib/csv/CsvRowData";
+import {Account} from "@prisma/client";
 
 /**
  * Represent a batch of transactions. Batches can be one of several
@@ -8,15 +8,26 @@ import {CsvRowData} from "@/lib/csv/CsvRowData";
  */
 export class CsvRowDataBatch {
 
-  private readonly rowData: CsvRowData[]
+  private readonly account: Account
+  private readonly rowData: {}[]
 
-  constructor(rowData: CsvRowData[]) {
+  constructor(account: Account, rowData: string[]) {
+    this.account = account
     this.rowData = rowData
   }
 
   normalize(): TransactionBatch {
     return new TransactionBatch(
-      this.rowData.map(item => item.toTransaction())
+      this.rowData.map(item => (
+        {
+          id: -1,
+          accountId: this.account.id,
+          date: new Date(item[this.account.date_field]),
+          description: item[this.account.description_field],
+          amount: BigInt(item[this.account.amount_field]),
+          categoryId: null,
+        }
+      ))
     )
   }
 }

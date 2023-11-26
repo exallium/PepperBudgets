@@ -2,7 +2,6 @@
 CREATE TABLE "Account" (
     "id" SERIAL NOT NULL,
     "title" VARCHAR(255) NOT NULL,
-    "type" VARCHAR(255) NOT NULL,
     "date_field" VARCHAR(255) NOT NULL,
     "description_field" VARCHAR(255) NOT NULL,
     "amount_field" VARCHAR(255) NOT NULL,
