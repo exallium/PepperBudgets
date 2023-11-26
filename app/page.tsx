@@ -1,10 +1,10 @@
-import PepperLoginLink from "@/components/PepperLoginLink";
+import PepperNavigationBar from "@/components/PepperNavigationBar";
 
 export default function Home() {
   return (
     <main className="">
+      <PepperNavigationBar />
       <h1>Pepper Budgets</h1>
-      <PepperLoginLink>Sign in</PepperLoginLink>
     </main>
   )
 }

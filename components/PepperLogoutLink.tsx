@@ -6,7 +6,7 @@ import {LogoutLink} from "@kinde-oss/kinde-auth-nextjs";
 const PepperLogoutLink: React.FC<{
   children: React.ReactNode
 }> = ({children}) => {
-  return <LogoutLink>{children}</LogoutLink>
+  return <LogoutLink className="p-2 rounded hover:bg-gray-600 text-white">{children}</LogoutLink>
 }
 
 export default PepperLogoutLink
