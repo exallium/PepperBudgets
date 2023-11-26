@@ -11,10 +11,13 @@ datasource db {
 }
 
 model Account {
-  id          Int           @id @default(autoincrement())
-  title       String        @unique @db.VarChar(255)
-  type        String        @db.VarChar(255)
-  transaction Transaction[]
+  id                Int           @id @default(autoincrement())
+  title             String        @unique @db.VarChar(255)
+  type              String        @db.VarChar(255)
+  transaction       Transaction[]
+  date_field        String        @db.VarChar(255)
+  description_field String        @db.VarChar(255)
+  amount_field      String        @db.VarChar(255)
 }
 
 model Transaction {
