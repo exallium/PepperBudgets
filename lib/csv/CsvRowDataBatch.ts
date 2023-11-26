@@ -9,9 +9,13 @@ import {Account} from "@prisma/client";
 export class CsvRowDataBatch {
 
   private readonly account: Account
-  private readonly rowData: {}[]
+  private readonly rowData: {
+    [key: string]: string
+  }[]
 
-  constructor(account: Account, rowData: string[]) {
+  constructor(account: Account, rowData: {
+    [key: string]: string
+  }[]) {
     this.account = account
     this.rowData = rowData
   }
@@ -24,7 +28,7 @@ export class CsvRowDataBatch {
           accountId: this.account.id,
           date: new Date(item[this.account.date_field]),
           description: item[this.account.description_field],
-          amount: BigInt(item[this.account.amount_field]),
+          amount: Number.parseFloat(item[this.account.amount_field]),
           categoryId: null,
         }
       ))

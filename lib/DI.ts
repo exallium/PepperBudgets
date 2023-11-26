@@ -1,8 +1,7 @@
-import DataStore from "@/lib/store/DataStore";
-import {TestDataStore} from "@/lib/store/TestDataStore";
+import {PrismaDataStore} from "@/lib/store/PrismaDataStore";
 
 export class DI {
 
-  static dataStore: DataStore = new TestDataStore()
+  static dataStore: PrismaDataStore = new PrismaDataStore()
 
 }

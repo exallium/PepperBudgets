@@ -15,7 +15,7 @@ CREATE TABLE "Transaction" (
     "accountId" INTEGER NOT NULL,
     "date" DATE NOT NULL,
     "description" VARCHAR(255) NOT NULL,
-    "amount" BIGINT NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
     "categoryId" INTEGER,
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")

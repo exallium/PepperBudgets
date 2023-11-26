@@ -2,6 +2,7 @@ import Papa from 'papaparse';
 import {Readable} from "stream";
 import {DI} from "@/lib/DI";
 import {CsvRowDataBatch} from "@/lib/csv/CsvRowDataBatch";
+import {Account} from "@prisma/client";
 
 /**
  * Handles CSV File upload
@@ -33,8 +34,15 @@ export async function POST(request: Request): Promise<Response> {
     }, {status: 400})
   }
 
+  const account: Account | null = await DI.dataStore.getAccountById(Number.parseInt(accountId as string))
+  if (!account) {
+    return Response.json({
+      'message': 'Invalid account.'
+    }, {status: 400})
+  }
+
   const buffer = await csvFile.arrayBuffer()
-  const data: {} = await new Promise(function (complete) {
+  const data: {}[] = await new Promise(function (complete) {
     const papaStream = Papa.parse(Papa.NODE_STREAM_INPUT, {
       header: true
     })
@@ -53,8 +61,6 @@ export async function POST(request: Request): Promise<Response> {
     })
   })
 
-  DI.dataStore.getAccountById(Number.parseInt(accountId as string))
-
   // Create transaction batch
   const csvRowDataBatch = new CsvRowDataBatch(
     {
@@ -71,7 +77,7 @@ export async function POST(request: Request): Promise<Response> {
   csvRowDataBatch.normalize().write(DI.dataStore)
 
   return Response.json({
-    type: type,
+    accountId: accountId,
     data: data
   })
 }

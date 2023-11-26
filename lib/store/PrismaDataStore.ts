@@ -1,7 +1,6 @@
-import DataStore from "@/lib/store/DataStore";
-import {PrismaClient, Transaction} from "@prisma/client";
+import {Account, PrismaClient, Transaction} from "@prisma/client";
 
-class PrismaDataStore implements DataStore {
+export class PrismaDataStore {
 
   private readonly prismaClient = new PrismaClient()
 
@@ -12,5 +11,13 @@ class PrismaDataStore implements DataStore {
         data: transactions
       }
     )
+  }
+
+  async getAccountById(accountId: number): Promise<Account | null> {
+    return this.prismaClient.account.findUnique({
+      where: {
+        id: accountId
+      }
+    })
   }
 }
