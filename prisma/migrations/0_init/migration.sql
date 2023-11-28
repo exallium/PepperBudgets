@@ -25,7 +25,7 @@ CREATE TABLE "Transaction" (
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "title" VARCHAR(255) NOT NULL,
-    "budget" BIGINT NOT NULL,
+    "budget" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
