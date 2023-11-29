@@ -24,13 +24,12 @@ async function createAccount(_: CreateAccountState, formData: FormData): Promise
       dateField as string,
       amountField as string
     )
+
+    return redirect("/accounts")
   } catch (e) {
     console.error(e)
     return {message: "Failed to create account."}
   }
-
-  // Create new db entry
-  return redirect("/accounts")
 }
 
 export default createAccount
