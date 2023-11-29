@@ -1,9 +1,9 @@
 'use client'
 
 import {useFormState, useFormStatus} from 'react-dom';
-import AccountForm from "@/components/AccountForm";
-import PrimaryButton from "@/components/PrimaryButton";
-import H1 from "@/components/H1";
+import AccountForm from "@/components/molecules/AccountForm";
+import PrimaryButton from "@/components/atoms/PrimaryButton";
+import H1 from "@/components/atoms/H1";
 import createAccount, {CreateAccountState} from "@/app/accounts/create/actions";
 
 const initialState: CreateAccountState = { }

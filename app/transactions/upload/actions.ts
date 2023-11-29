@@ -3,6 +3,11 @@ import {Readable} from "stream";
 import {DI} from "@/lib/DI";
 import {CsvRowDataBatch} from "@/lib/csv/CsvRowDataBatch";
 import {Account} from "@prisma/client";
+import {redirect} from "next/navigation";
+
+export interface UploadTransactionsState {
+  message?: string
+}
 
 /**
  * Handles CSV File upload
@@ -14,31 +19,27 @@ import {Account} from "@prisma/client";
  *
  * Expects MultiPart FormData with a csv file and valid type
  */
-export async function POST(request: Request): Promise<Response> {
-  const formData = await request.formData()
-
-  // Requires a 'csv' file and a valid 'type'
+export async function uploadTransactions(_: UploadTransactionsState, formData: FormData): Promise<UploadTransactionsState> {
   const csvFile = formData.get('csv')
-
   const accountId = formData.get('accountId')
 
   if (!csvFile || !accountId) {
-    return Response.json({
-      'message': 'Invalid or missing input data.'
-    }, {status: 400})
+    return {
+      message: 'Invalid or missing input data.'
+    }
   }
 
   if (!isCSVFile(csvFile)) {
-    return Response.json({
-      'message': 'Invalid csv file.'
-    }, {status: 400})
+    return {
+      message: 'Invalid csv file.'
+    }
   }
 
   const account: Account | null = await DI.dataStore.getAccountById(Number.parseInt(accountId as string))
   if (!account) {
-    return Response.json({
-      'message': 'Invalid account.'
-    }, {status: 400})
+    return {
+      message: 'Invalid account.'
+    }
   }
 
   const buffer = await csvFile.arrayBuffer()
@@ -63,23 +64,21 @@ export async function POST(request: Request): Promise<Response> {
 
   // Create transaction batch
   const csvRowDataBatch = new CsvRowDataBatch(
-    {
-      id: 0,
-      title: "My Account",
-      description_field: 'Description',
-      date_field: 'Transaction Date',
-      amount_field: 'Amount'
-    },
+    account,
     data
   )
 
-  // Write transactions to datastore
-  csvRowDataBatch.normalize().write(DI.dataStore)
+  try {
+    // Write transactions to datastore
+    await csvRowDataBatch.normalize().write(DI.dataStore)
+  } catch (e) {
+    console.log(e)
+    return {
+      message: 'Failed to write transactions'
+    }
+  }
 
-  return Response.json({
-    accountId: accountId,
-    data: data
-  })
+  return redirect('/transactions')
 }
 
 function isCSVFile(input: string | File): input is File {

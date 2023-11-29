@@ -17,9 +17,10 @@ export async function createCategory(_: CreateCategoryState, formData: FormData)
 
   try {
     await DI.dataStore.createCategory(title as string, Number.parseFloat(budget as string))
-    return redirect("/categories")
   } catch (e) {
     console.log(e)
     return {message: "Failed to create category"}
   }
+
+  return redirect("/categories")
 }

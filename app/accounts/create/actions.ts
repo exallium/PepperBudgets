@@ -25,11 +25,12 @@ async function createAccount(_: CreateAccountState, formData: FormData): Promise
       amountField as string
     )
 
-    return redirect("/accounts")
   } catch (e) {
     console.error(e)
     return {message: "Failed to create account."}
   }
+
+  return redirect("/accounts")
 }
 
 export default createAccount

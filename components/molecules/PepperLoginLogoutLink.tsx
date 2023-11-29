@@ -1,6 +1,6 @@
 import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server";
-import PepperLoginLink from "@/components/PepperLoginLink";
-import PepperLogoutLink from "@/components/PepperLogoutLink";
+import PepperLoginLink from "@/components/molecules/PepperLoginLink";
+import PepperLogoutLink from "@/components/molecules/PepperLogoutLink";
 
 export default async function PepperLoginLogoutLink() {
   const isAuthenticated = await getKindeServerSession().isAuthenticated()

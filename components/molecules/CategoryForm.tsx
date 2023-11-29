@@ -1,6 +1,6 @@
-import InlineFormItem from "@/components/InlineFormItem";
-import InlineFormInput from "@/components/InlineFormInput";
-import InlineFormLabel from "@/components/InlineFormLabel";
+import InlineFormItem from "@/components/atoms/InlineFormItem";
+import InlineFormInput from "@/components/atoms/InlineFormInput";
+import InlineFormLabel from "@/components/atoms/InlineFormLabel";
 
 const CategoryForm = () => {
   return (

@@ -1,16 +1,34 @@
 import {Account, PrismaClient, Transaction} from "@prisma/client";
 
+interface PrismaTransactionsPageQuery {
+  limit: number,
+  offset: number
+}
+
 export class PrismaDataStore {
 
   private readonly prismaClient = new PrismaClient()
 
-  writeTransactions(transactions: Transaction[]): void {
+  writeTransactions(transactions: Transaction[]) {
     // Write each to the database
-    this.prismaClient.transaction.createMany(
+    return this.prismaClient.transaction.createMany(
       {
         data: transactions
       }
     )
+  }
+
+  async getTransactions(
+    query: PrismaTransactionsPageQuery
+  ) {
+    return this.prismaClient.transaction.findMany({
+      skip: query.offset,
+      take: query.limit
+    })
+  }
+
+  async getTransactionCount() {
+    return this.prismaClient.transaction.count()
   }
 
   async createAccount(

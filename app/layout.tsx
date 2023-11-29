@@ -2,7 +2,7 @@ import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import './globals.css'
 import React from "react";
-import PepperNavigationBar from "@/components/PepperNavigationBar";
+import PepperNavigationBar from "@/components/organisms/PepperNavigationBar";
 
 const inter = Inter({subsets: ['latin']})
 

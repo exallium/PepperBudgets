@@ -1,5 +1,5 @@
-import DataStore from "@/lib/store/DataStore";
 import {Transaction} from "@prisma/client";
+import {PrismaDataStore} from "@/lib/store/PrismaDataStore";
 
 /**
  * Collection of NormalizedAccountTransactions which can be
@@ -13,7 +13,7 @@ export class TransactionBatch {
     this.normalizedTransactions = normalizedTransactions
   }
 
-  write(dataStore: DataStore) {
-    dataStore.writeTransactions(this.normalizedTransactions)
+  async write(dataStore: PrismaDataStore) {
+    return dataStore.writeTransactions(this.normalizedTransactions)
   }
 }

@@ -1,10 +1,10 @@
 'use client'
 
 import {useFormState, useFormStatus} from 'react-dom';
-import PrimaryButton from "@/components/PrimaryButton";
-import H1 from "@/components/H1";
+import PrimaryButton from "@/components/atoms/PrimaryButton";
+import H1 from "@/components/atoms/H1";
 import {createCategory, CreateCategoryState} from "@/app/categories/create/actions";
-import CategoryForm from "@/components/CategoryForm";
+import CategoryForm from "@/components/molecules/CategoryForm";
 
 const initialState: CreateCategoryState = {}
 

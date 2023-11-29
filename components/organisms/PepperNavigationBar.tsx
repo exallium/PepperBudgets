@@ -1,6 +1,6 @@
 import React from "react";
-import PepperLoginLogoutLink from "@/components/PepperLoginLogoutLink";
-import H1 from "@/components/H1";
+import PepperLoginLogoutLink from "@/components/molecules/PepperLoginLogoutLink";
+import H1 from "@/components/atoms/H1";
 
 const PepperNavigationBar: React.FC = () => {
   return (
