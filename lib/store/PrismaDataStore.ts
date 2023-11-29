@@ -1,4 +1,5 @@
-import {Account, PrismaClient, Transaction} from "@prisma/client";
+import {Account, Prisma, PrismaClient, Transaction} from "@prisma/client";
+import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -9,7 +10,7 @@ export class PrismaDataStore {
 
   private readonly prismaClient = new PrismaClient()
 
-  writeTransactions(transactions: Transaction[]) {
+  writeTransactions(transactions: TransactionCreateManyInput[]) {
     // Write each to the database
     return this.prismaClient.transaction.createMany(
       {
@@ -48,7 +49,12 @@ export class PrismaDataStore {
   }
 
   async getAllAccounts() {
-    return this.prismaClient.account.findMany()
+    return this.prismaClient.account.findMany({
+      select: {
+        id: true,
+        title: true
+      }
+    })
   }
 
   async getAccountById(accountId: number): Promise<Account | null> {

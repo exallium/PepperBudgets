@@ -1,13 +1,33 @@
-import React from "react";
+'use client'
+
+import React, {useEffect, useState} from "react";
 import InlineFormItem from "@/components/atoms/InlineFormItem";
 import InlineFormLabel from "@/components/atoms/InlineFormLabel";
 import InlineFormInput from "@/components/atoms/InlineFormInput";
 import InlineFormSelect from "@/components/atoms/InlineFormSelect";
-import {DI} from "@/lib/DI";
 
-const TransactionUploadForm: React.FC = async () => {
+const TransactionUploadForm: React.FC = () => {
+  const [accounts, setAccounts] = useState<{
+    id: number,
+    title: string
+  }[]>()
 
-  const accounts = await DI.dataStore.getAllAccounts()
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/accounts')
+      const accounts = await res.json()
+
+      setAccounts(accounts)
+    }
+
+    fetchData()
+      .catch(console.error)
+  }, [])
+
+  if (!accounts) {
+    return <p>Loading...</p>
+  }
+
   const options = accounts.map(account => ({
     value: account.id,
     label: account.title
@@ -18,7 +38,7 @@ const TransactionUploadForm: React.FC = async () => {
     <InlineFormItem>
         <>
           <InlineFormLabel htmlFor="account">Account</InlineFormLabel>
-          <InlineFormSelect id="account" name="accoundId" options={options} />
+          <InlineFormSelect id="account" name="accountId" options={options} />
         </>
       </InlineFormItem>
       <InlineFormItem>

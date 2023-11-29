@@ -1,5 +1,6 @@
-import {Transaction} from "@prisma/client";
+import {Prisma} from "@prisma/client";
 import {PrismaDataStore} from "@/lib/store/PrismaDataStore";
+import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 
 /**
  * Collection of NormalizedAccountTransactions which can be
@@ -7,9 +8,9 @@ import {PrismaDataStore} from "@/lib/store/PrismaDataStore";
  */
 export class TransactionBatch {
 
-  private readonly normalizedTransactions: Transaction[]
+  private readonly normalizedTransactions: TransactionCreateManyInput[]
 
-  constructor(normalizedTransactions: Transaction[]) {
+  constructor(normalizedTransactions: TransactionCreateManyInput[]) {
     this.normalizedTransactions = normalizedTransactions
   }
 

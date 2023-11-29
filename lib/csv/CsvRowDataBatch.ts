@@ -24,12 +24,10 @@ export class CsvRowDataBatch {
     return new TransactionBatch(
       this.rowData.map(item => (
         {
-          id: -1,
           accountId: this.account.id,
           date: new Date(item[this.account.date_field]),
           description: item[this.account.description_field],
-          amount: Number.parseFloat(item[this.account.amount_field]),
-          categoryId: null,
+          amount: Number.parseFloat(item[this.account.amount_field])
         }
       ))
     )

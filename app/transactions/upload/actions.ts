@@ -1,3 +1,5 @@
+'use server'
+
 import Papa from 'papaparse';
 import {Readable} from "stream";
 import {DI} from "@/lib/DI";
@@ -23,9 +25,15 @@ export async function uploadTransactions(_: UploadTransactionsState, formData: F
   const csvFile = formData.get('csv')
   const accountId = formData.get('accountId')
 
-  if (!csvFile || !accountId) {
+  if (!csvFile) {
     return {
-      message: 'Invalid or missing input data.'
+      message: 'Missing CSV File.'
+    }
+  }
+
+  if (!accountId) {
+    return {
+      message: 'Missing account id.'
     }
   }
 
