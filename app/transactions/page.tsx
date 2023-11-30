@@ -64,7 +64,7 @@ export default async function CategoriesPage() {
                   {item.category?.title ?? "----"}
                 </TableData>
                 <TableData>
-                  <a href="#">Edit</a>
+                  <a href={`/transactions/${item.id}`}>Edit</a>
                 </TableData>
               </TableRow>
             ))

@@ -1,5 +1,6 @@
-import {Account, Prisma, PrismaClient, Transaction} from "@prisma/client";
+import {Account, Prisma, PrismaClient} from "@prisma/client";
 import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
+import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -19,6 +20,17 @@ export class PrismaDataStore {
     )
   }
 
+  updateTransaction(id: number, transaction: TransactionUpdateInput) {
+    return this.prismaClient.transaction.update(
+      {
+        where: {
+          id: id
+        },
+        data: transaction
+      }
+    )
+  }
+
   async getTransactions(
     query: PrismaTransactionsPageQuery
   ) {
@@ -27,6 +39,19 @@ export class PrismaDataStore {
       take: query.limit,
       include: {
         category: true
+      },
+      orderBy: {
+        date: "asc"
+      }
+    })
+  }
+
+  async getTransactionById(
+    transactionId: number
+  ) {
+    return this.prismaClient.transaction.findUnique({
+      where: {
+        id: transactionId
       }
     })
   }
@@ -52,7 +77,9 @@ export class PrismaDataStore {
   }
 
   async getAllAccounts() {
-    return this.prismaClient.account.findMany()
+    return this.prismaClient.account.findMany({
+      orderBy: { title: "asc" }
+    })
   }
 
   async getAccountById(accountId: number): Promise<Account | null> {
@@ -73,6 +100,8 @@ export class PrismaDataStore {
   }
 
   async getAllCategories() {
-    return this.prismaClient.category.findMany()
+    return this.prismaClient.category.findMany({
+      orderBy: { title: "asc" }
+    })
   }
 }

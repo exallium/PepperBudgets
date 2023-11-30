@@ -5,24 +5,10 @@ import InlineFormItem from "@/components/atoms/InlineFormItem";
 import InlineFormLabel from "@/components/atoms/InlineFormLabel";
 import InlineFormInput from "@/components/atoms/InlineFormInput";
 import InlineFormSelect from "@/components/atoms/InlineFormSelect";
+import {useApiData} from "@/components/hooks";
 
 const TransactionUploadForm: React.FC = () => {
-  const [accounts, setAccounts] = useState<{
-    id: number,
-    title: string
-  }[]>()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/api/accounts')
-      const accounts = await res.json()
-
-      setAccounts(accounts)
-    }
-
-    fetchData()
-      .catch(console.error)
-  }, [])
+  const accounts = useApiData<{id: number, title: string}[]>('/api/accounts')
 
   if (!accounts) {
     return <p>Loading...</p>
