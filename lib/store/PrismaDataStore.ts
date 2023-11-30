@@ -52,12 +52,7 @@ export class PrismaDataStore {
   }
 
   async getAllAccounts() {
-    return this.prismaClient.account.findMany({
-      select: {
-        id: true,
-        title: true
-      }
-    })
+    return this.prismaClient.account.findMany()
   }
 
   async getAccountById(accountId: number): Promise<Account | null> {

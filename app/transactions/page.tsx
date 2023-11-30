@@ -19,14 +19,9 @@ export default async function CategoriesPage() {
     offset: 0
   })
 
-  const formatter = Intl.NumberFormat('en-CA', {
-    style: 'currency',
-    currency: 'CAD'
-  })
-
   const rowData = transactions.map(transaction => ({
-    transaction: transaction,
-    amount: formatter.format(transaction.amount)
+    ...transaction,
+    formattedAmount: DI.currencyFormatter.format(transaction.amount)
   }))
 
   return (
@@ -55,21 +50,21 @@ export default async function CategoriesPage() {
         <TableBody>
           {
             rowData.map(item => (
-              <TableRow key={item.transaction.id}>
+              <TableRow key={item.id}>
                 <TableData>
-                  {item.transaction.date.toDateString()}
+                  {item.date.toDateString()}
                 </TableData>
                 <TableData>
-                  {item.transaction.description}
+                  {item.description}
                 </TableData>
                 <TableData>
-                  {item.amount}
+                  {item.formattedAmount}
                 </TableData>
                 <TableData>
-                  {item.transaction.category?.title ?? "----"}
+                  {item.category?.title ?? "----"}
                 </TableData>
                 <TableData>
-                  <p>Edit</p>
+                  <a href="#">Edit</a>
                 </TableData>
               </TableRow>
             ))
