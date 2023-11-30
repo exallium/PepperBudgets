@@ -47,6 +47,9 @@ export default async function CategoriesPage() {
             <TableHeading>
               Category
             </TableHeading>
+            <TableHeading>
+              Actions
+            </TableHeading>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,6 +67,9 @@ export default async function CategoriesPage() {
                 </TableData>
                 <TableData>
                   {item.transaction.category?.title ?? "----"}
+                </TableData>
+                <TableData>
+                  <p>Edit</p>
                 </TableData>
               </TableRow>
             ))
