@@ -36,7 +36,7 @@ export default async function AccountsPage() {
                 <TableData>{item.amount_field}</TableData>
                 <TableData>{item.date_field}</TableData>
                 <TableData>
-                  <a href="#">Edit</a>
+                  <a href={`/accounts/${item.id}`}>Edit</a>
                 </TableData>
               </TableRow>
             ))

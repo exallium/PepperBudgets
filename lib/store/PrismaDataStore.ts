@@ -2,6 +2,7 @@ import {Account, Prisma, PrismaClient} from "@prisma/client";
 import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 import CategoryUpdateInput = Prisma.CategoryUpdateInput;
+import AccountUpdateInput = Prisma.AccountUpdateInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -77,9 +78,20 @@ export class PrismaDataStore {
     })
   }
 
+  async updateAccount(id: number, account: AccountUpdateInput) {
+    return this.prismaClient.account.update(
+      {
+        data: account,
+        where: {
+          id: id
+        }
+      }
+    )
+  }
+
   async getAllAccounts() {
     return this.prismaClient.account.findMany({
-      orderBy: { title: "asc" }
+      orderBy: {title: "asc"}
     })
   }
 
@@ -121,7 +133,7 @@ export class PrismaDataStore {
 
   async getAllCategories() {
     return this.prismaClient.category.findMany({
-      orderBy: { title: "asc" }
+      orderBy: {title: "asc"}
     })
   }
 }
