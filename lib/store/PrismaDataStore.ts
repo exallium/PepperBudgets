@@ -24,7 +24,10 @@ export class PrismaDataStore {
   ) {
     return this.prismaClient.transaction.findMany({
       skip: query.offset,
-      take: query.limit
+      take: query.limit,
+      include: {
+        category: true
+      }
     })
   }
 

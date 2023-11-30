@@ -19,6 +19,16 @@ export default async function CategoriesPage() {
     offset: 0
   })
 
+  const formatter = Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD'
+  })
+
+  const rowData = transactions.map(transaction => ({
+    transaction: transaction,
+    amount: formatter.format(transaction.amount)
+  }))
+
   return (
     <div className="flex flex-col flex-wrap content-center">
       <H1 className="p-4">Transactions</H1>
@@ -32,22 +42,28 @@ export default async function CategoriesPage() {
               Description
             </TableHeading>
             <TableHeading>
-              Body
+              Amount
+            </TableHeading>
+            <TableHeading>
+              Category
             </TableHeading>
           </TableRow>
         </TableHead>
         <TableBody>
           {
-            transactions.map(transaction => (
-              <TableRow key={transaction.id}>
+            rowData.map(item => (
+              <TableRow key={item.transaction.id}>
                 <TableData>
-                  {transaction.date.toDateString()}
+                  {item.transaction.date.toDateString()}
                 </TableData>
                 <TableData>
-                  {transaction.description}
+                  {item.transaction.description}
                 </TableData>
                 <TableData>
-                  {transaction.amount}
+                  {item.amount}
+                </TableData>
+                <TableData>
+                  {item.transaction.category?.title ?? "----"}
                 </TableData>
               </TableRow>
             ))
