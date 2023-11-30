@@ -1,6 +1,7 @@
 import {Account, Prisma, PrismaClient} from "@prisma/client";
 import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 import TransactionUpdateInput = Prisma.TransactionUpdateInput;
+import CategoryUpdateInput = Prisma.CategoryUpdateInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -95,6 +96,25 @@ export class PrismaDataStore {
       data: {
         title: title,
         budget: budget
+      }
+    })
+  }
+
+  async updateCategory(id: number, category: CategoryUpdateInput) {
+    return this.prismaClient.category.update(
+      {
+        data: category,
+        where: {
+          id: id
+        }
+      }
+    )
+  }
+
+  async getCategoryById(id: number) {
+    return this.prismaClient.category.findUnique({
+      where: {
+        id: id
       }
     })
   }

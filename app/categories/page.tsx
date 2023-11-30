@@ -45,7 +45,7 @@ export default async function CategoriesPage() {
                 <TableData>{item.title}</TableData>
                 <TableData>{item.formattedAmount}</TableData>
                 <TableData>
-                  <a href="#">Edit</a>
+                  <a href={`/categories/${item.id}`}>Edit</a>
                 </TableData>
               </TableRow>
             ))
