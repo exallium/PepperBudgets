@@ -28,6 +28,7 @@ model Transaction {
   amount      Float     @db.DoublePrecision
   categoryId  Int?
   category    Category? @relation(fields: [categoryId], references: [id])
+  tag         Tag[]
 }
 
 model Category {
@@ -35,4 +36,19 @@ model Category {
   title       String        @unique @db.VarChar(255)
   budget      Float         @db.DoublePrecision
   transaction Transaction[]
+  pattern     Pattern[]
+}
+
+model Tag {
+  id               Int           @id @default(autoincrement())
+  title            String        @unique @db.VarChar(255)
+  hide_from_budget Boolean       @default(false)
+  transaction      Transaction[]
+}
+
+model Pattern {
+  id         Int      @id @default(autoincrement())
+  pattern    String   @unique @db.VarChar(255)
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
 }
