@@ -7,6 +7,7 @@ import AccountUpdateInput = Prisma.AccountUpdateInput;
 import PatternCreateInput = Prisma.PatternCreateInput;
 import TagCreateInput = Prisma.TagCreateInput;
 import TagUpdateInput = Prisma.TagUpdateInput;
+import AccountCreateInput = Prisma.AccountCreateInput;
 
 export class PrismaDataStore {
 
@@ -77,18 +78,10 @@ export class PrismaDataStore {
   }
 
   async createAccount(
-    title: string,
-    descriptionField: string,
-    dateField: string,
-    amountField: string
+    input: AccountCreateInput
   ) {
     return prisma.account.create({
-      data: {
-        amount_field: amountField,
-        date_field: dateField,
-        description_field: descriptionField,
-        title: title
-      }
+      data: input
     })
   }
 

@@ -16,6 +16,16 @@ const AccountForm: React.FC<{
         </>
       </InlineFormItem>
       <InlineFormItem>
+        <InlineFormLabel htmlFor="headers">Headers</InlineFormLabel>
+        <input id="headers" name="headers" type="checkbox"
+               defaultChecked={account?.headers ?? false} value={"headers"}/>
+      </InlineFormItem>
+      <InlineFormItem>
+        <InlineFormLabel htmlFor="invert-amounts">Invert Amounts</InlineFormLabel>
+        <input id="invert-amounts" name="invert-amounts" type="checkbox"
+               defaultChecked={account?.invert_values ?? false} value={"invert-amounts"}/>
+      </InlineFormItem>
+      <InlineFormItem>
         <>
           <InlineFormLabel htmlFor="description-field">Description Field</InlineFormLabel>
           <InlineFormInput id="description-field" name="description-field" defaultValue={account?.description_field ?? ""} />
@@ -31,6 +41,12 @@ const AccountForm: React.FC<{
         <>
           <InlineFormLabel htmlFor="amount-field">Amount Field</InlineFormLabel>
           <InlineFormInput id="amount-field" name="amount-field" defaultValue={account?.amount_field ?? ""} />
+        </>
+      </InlineFormItem>
+      <InlineFormItem>
+        <>
+          <InlineFormLabel htmlFor="income-field">Income Field</InlineFormLabel>
+          <InlineFormInput id="income-field" name="income-field" defaultValue={account?.income_field ?? ""} />
         </>
       </InlineFormItem>
     </div>
