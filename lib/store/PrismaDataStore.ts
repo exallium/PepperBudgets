@@ -1,4 +1,5 @@
 import {Account, Prisma} from "@prisma/client";
+import prisma from "@/lib/store/prisma";
 import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 import CategoryUpdateInput = Prisma.CategoryUpdateInput;
@@ -6,7 +7,6 @@ import AccountUpdateInput = Prisma.AccountUpdateInput;
 import PatternCreateInput = Prisma.PatternCreateInput;
 import TagCreateInput = Prisma.TagCreateInput;
 import TagUpdateInput = Prisma.TagUpdateInput;
-import prisma from "@/lib/store/prisma";
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -25,14 +25,19 @@ export class PrismaDataStore {
 
         // Inserted result.count entries, so we assume the last COUNT entries are our new ones.
         const ids = await tx.transaction.findMany({
-          select: { id: true },
-          orderBy: { id: 'desc' },
+          select: {id: true},
+          orderBy: {id: 'desc'},
           take: result.count
         })
 
         const idList = ids.map(i => (i.id))
 
-        await tx.$executeRaw`UPDATE "Transaction" SET "categoryId" = (SELECT "categoryId" FROM "Pattern" WHERE "description" LIKE "pattern" ORDER BY LENGTH("pattern") DESC LIMIT 1) WHERE "id" IN (${Prisma.join(idList)});`
+        await tx.$executeRaw`UPDATE "Transaction"
+                             SET "categoryId" = (SELECT "categoryId"
+                                                 FROM "Pattern"
+                                                 WHERE "description" LIKE "pattern"
+                                                 ORDER BY LENGTH("pattern") DESC LIMIT 1)
+                             WHERE "id" IN (${Prisma.join(idList)});`
       }
     )
   }
@@ -161,7 +166,12 @@ export class PrismaDataStore {
         data: args
       })
 
-      await tx.$executeRaw`UPDATE "Transaction" SET "categoryId" = (SELECT "categoryId" FROM "Pattern" WHERE "description" LIKE "pattern" ORDER BY LENGTH("pattern") DESC LIMIT 1) WHERE "categoryId" IS NULL;`
+      await tx.$executeRaw`UPDATE "Transaction"
+                           SET "categoryId" = (SELECT "categoryId"
+                                               FROM "Pattern"
+                                               WHERE "description" LIKE "pattern"
+                                               ORDER BY LENGTH("pattern") DESC LIMIT 1)
+                           WHERE "categoryId" IS NULL;`
     })
   }
 
@@ -192,5 +202,37 @@ export class PrismaDataStore {
         id: id
       }
     })
+  }
+
+  async getDashboardData() {
+    // Get this month:
+    const now = new Date()
+    const firstOfMonth = new Date(now.getFullYear(), now.getMonth() - 1)
+
+    const transactions = await prisma.transaction.groupBy({
+      by: ['categoryId'],
+      _sum: {amount: true},
+      where: {
+        date: {
+          gte: firstOfMonth
+        }
+      }
+    })
+
+    const initial: {
+      [key: number]: number
+    } = {}
+
+    const transactionsMap = transactions.reduce((acc, i) => {
+      acc[i.categoryId ?? 0] = i._sum.amount!!
+      return acc
+    }, initial)
+
+    const categories = await this.getAllCategories()
+
+    return {
+      categories: categories,
+      transactions: transactionsMap
+    }
   }
 }
