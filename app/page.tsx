@@ -17,7 +17,7 @@ export default async function Home() {
         {dashboardData.categories.map(category => (
           <BudgetRow key={category.id} amountSpent={dashboardData.transactions[category.id] ?? 0} category={category} />
         ))}
-        <BudgetRow amountSpent={dashboardData.transactions[0]} />
+        <BudgetRow amountSpent={dashboardData.transactions[0] ?? 0} />
       </div>
     </div>
   )

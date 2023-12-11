@@ -8,11 +8,6 @@ import TableData from "@/components/atoms/TableData";
 import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function CategoriesPage() {
-  const transactionCount = await DI.dataStore.getTransactionCount()
-  if (transactionCount == 0) {
-    return <p>No transactions!</p>
-  }
-
   // TODO -- paging
   const transactions = await DI.dataStore.getTransactions({
     limit: 10,

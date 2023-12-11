@@ -12,10 +12,6 @@ import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 export default async function AccountsPage() {
   const accounts = await DI.dataStore.getAllAccounts()
 
-  if (accounts.length == 0) {
-    return <p>No Accounts!</p>
-  }
-
   return (
     <div className="flex flex-col flex-wrap content-center">
       <TopLevelHeader title="Accounts" actionHref="/accounts/create" actionLabel="Create Account" />

@@ -10,10 +10,6 @@ import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 export default async function TagsPage() {
   const tags = await DI.dataStore.getAllTags()
 
-  if (tags.length == 0) {
-    return <p>No Tags!</p>
-  }
-
   return (
     <div className="flex flex-col flex-wrap content-center">
       <TopLevelHeader title="Tags" actionHref="/tags/create" actionLabel="Create Tag"/>
