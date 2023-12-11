@@ -85,10 +85,10 @@ export class PrismaDataStore {
     })
   }
 
-  async updateAccount(id: number, account: AccountUpdateInput) {
+  async updateAccount(id: number, input: AccountUpdateInput) {
     return prisma.account.update(
       {
-        data: account,
+        data: input,
         where: {
           id: id
         }
