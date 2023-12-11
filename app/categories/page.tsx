@@ -5,7 +5,7 @@ import TableBody from "@/components/atoms/TableBody";
 import TableRow from "@/components/atoms/TableRow";
 import TableHeading from "@/components/atoms/TableHeading";
 import TableData from "@/components/atoms/TableData";
-import H1 from "@/components/atoms/H1";
+import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function CategoriesPage() {
   const categories = await DI.dataStore.getAllCategories()
@@ -23,7 +23,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="flex flex-col flex-wrap content-center">
-      <H1 className="p-4">Categories</H1>
+      <TopLevelHeader title="Categories" actionHref="/categories/create" actionLabel="Create Category"/>
       <Table className="border-collapse w-full max-w-3xl text-sm m-4">
         <TableHead>
           <TableRow>

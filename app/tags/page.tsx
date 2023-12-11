@@ -1,11 +1,11 @@
 import {DI} from "@/lib/DI";
-import H1 from "@/components/atoms/H1";
 import Table from "@/components/atoms/Table";
 import TableHead from "@/components/atoms/TableHead";
 import TableRow from "@/components/atoms/TableRow";
 import TableHeading from "@/components/atoms/TableHeading";
 import TableBody from "@/components/atoms/TableBody";
 import TableData from "@/components/atoms/TableData";
+import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function TagsPage() {
   const tags = await DI.dataStore.getAllTags()
@@ -16,7 +16,7 @@ export default async function TagsPage() {
 
   return (
     <div className="flex flex-col flex-wrap content-center">
-      <H1 className="p-4">Tags</H1>
+      <TopLevelHeader title="Tags" actionHref="/tags/create" actionLabel="Create Tag"/>
       <Table className="border-collapse w-full max-w-3xl text-sm m-4">
         <TableHead>
           <TableRow>

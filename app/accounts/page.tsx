@@ -6,6 +6,8 @@ import TableRow from "@/components/atoms/TableRow";
 import TableHeading from "@/components/atoms/TableHeading";
 import TableBody from "@/components/atoms/TableBody";
 import TableData from "@/components/atoms/TableData";
+import PrimaryLink from "@/components/atoms/PrimaryLink";
+import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function AccountsPage() {
   const accounts = await DI.dataStore.getAllAccounts()
@@ -16,7 +18,7 @@ export default async function AccountsPage() {
 
   return (
     <div className="flex flex-col flex-wrap content-center">
-      <H1 className="p-4">Accounts</H1>
+      <TopLevelHeader title="Accounts" actionHref="/accounts/create" actionLabel="Create Account" />
       <Table className="border-collapse w-full max-w-3xl text-sm m-4">
         <TableHead>
           <TableRow>

@@ -5,7 +5,7 @@ import TableBody from "@/components/atoms/TableBody";
 import TableHeading from "@/components/atoms/TableHeading";
 import TableRow from "@/components/atoms/TableRow";
 import TableData from "@/components/atoms/TableData";
-import H1 from "@/components/atoms/H1";
+import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function CategoriesPage() {
   const transactionCount = await DI.dataStore.getTransactionCount()
@@ -26,7 +26,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="flex flex-col flex-wrap content-center">
-      <H1 className="p-4">Transactions</H1>
+      <TopLevelHeader title="Transactions" actionHref="/transactions/upload" actionLabel="Upload"/>
       <Table className="border-collapse w-full max-w-3xl text-sm m-4">
         <TableHead>
           <TableRow>
