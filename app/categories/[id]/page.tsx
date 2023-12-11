@@ -22,7 +22,7 @@ export default function EditCategory({ params }: { params: { id: string }}) {
 
   return (
     <form className="flex flex-col flex-wrap content-center" action={formAction}>
-      <H1 className="text-center p-4 border-b-2 border-b-green-500 mb-4">Create Category</H1>
+      <H1 className="text-center p-4 border-b-2 border-b-green-500 mb-4">Update Category</H1>
       <CategoryForm category={category} />
       <input type="hidden" name="id" value={params.id} />
       <SubmitButton>Update</SubmitButton>
