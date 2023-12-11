@@ -17,6 +17,15 @@ model Account {
   date_field        String        @db.VarChar(255)
   description_field String        @db.VarChar(255)
   amount_field      String        @db.VarChar(255)
+
+  // Specifies whether or not the CSV file will contain headers. If not, then indicies will need to be used.^
+  headers           Boolean       @default(true)
+
+  // Optional field if there are separate fields for withdraw and deposit (like with TD)
+  income_field      String?       @db.VarChar(255)
+
+  // Whether to invert the sign on values we read in from the CSV
+  invert_values     Boolean       @default(false)
 }
 
 model Transaction {
