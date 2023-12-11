@@ -155,8 +155,12 @@ export class PrismaDataStore {
   }
 
   async createPattern(args: PatternCreateInput) {
-    return this.prismaClient.pattern.create({
-      data: args
+    return this.prismaClient.$transaction(async (tx) => {
+      await tx.pattern.create({
+        data: args
+      })
+
+      await tx.$executeRaw`UPDATE "Transaction" SET "categoryId" = (SELECT "categoryId" FROM "Pattern" WHERE "description" LIKE "pattern" ORDER BY LENGTH("pattern") DESC LIMIT 1) WHERE "categoryId" IS NULL;`
     })
   }
 }

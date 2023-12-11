@@ -24,7 +24,7 @@ const TransactionUpdateForm: React.FC<{
       <InlineFormItem>
         <>
           <InlineFormLabel htmlFor="category-id">Category</InlineFormLabel>
-          <InlineFormSelect id="category-id" options={categories} name="categoryId"/>
+          <InlineFormSelect id="category-id" options={[{value: 0, label: "---"}].concat(categories)} name="categoryId"/>
         </>
       </InlineFormItem>
     </div>

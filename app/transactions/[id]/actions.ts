@@ -22,7 +22,8 @@ export async function updateTransaction(_: UpdateTransactionState, formData: For
     }
   }
 
-  const categoryBody: Prisma.CategoryUpdateOneWithoutTransactionNestedInput = categoryId
+  const hasCategoryId = categoryId !== null && Number(categoryId) > 0
+  const categoryBody: Prisma.CategoryUpdateOneWithoutTransactionNestedInput = hasCategoryId
     ? {connect: {id: Number(categoryId)}}
     : {disconnect: true}
 
