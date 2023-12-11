@@ -32,6 +32,7 @@ const PepperNavigationBarPages = () => {
       <PepperNavigationBarPage href="/accounts">Accounts</PepperNavigationBarPage>
       <PepperNavigationBarPage href="/categories">Categories</PepperNavigationBarPage>
       <PepperNavigationBarPage href="/transactions">Transactions</PepperNavigationBarPage>
+      <PepperNavigationBarPage href="/tags">Tags</PepperNavigationBarPage>
     </div>
   )
 }

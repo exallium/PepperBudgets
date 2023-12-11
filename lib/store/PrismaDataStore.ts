@@ -4,6 +4,8 @@ import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 import CategoryUpdateInput = Prisma.CategoryUpdateInput;
 import AccountUpdateInput = Prisma.AccountUpdateInput;
 import PatternCreateInput = Prisma.PatternCreateInput;
+import TagCreateInput = Prisma.TagCreateInput;
+import TagUpdateInput = Prisma.TagUpdateInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -161,6 +163,35 @@ export class PrismaDataStore {
       })
 
       await tx.$executeRaw`UPDATE "Transaction" SET "categoryId" = (SELECT "categoryId" FROM "Pattern" WHERE "description" LIKE "pattern" ORDER BY LENGTH("pattern") DESC LIMIT 1) WHERE "categoryId" IS NULL;`
+    })
+  }
+
+  async updateTag(id: number, input: TagUpdateInput) {
+    return this.prismaClient.tag.update({
+      data: input,
+      where: {
+        id: id
+      }
+    })
+  }
+
+  async createTag(input: TagCreateInput) {
+    return this.prismaClient.tag.create({
+      data: input
+    })
+  }
+
+  async getAllTags() {
+    return this.prismaClient.tag.findMany({
+      orderBy: {title: "asc"}
+    })
+  }
+
+  async getTagById(id: number) {
+    return this.prismaClient.tag.findUnique({
+      where: {
+        id: id
+      }
     })
   }
 }
