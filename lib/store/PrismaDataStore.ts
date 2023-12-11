@@ -1,4 +1,4 @@
-import {Account, Prisma, PrismaClient} from "@prisma/client";
+import {Account, Prisma} from "@prisma/client";
 import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 import CategoryUpdateInput = Prisma.CategoryUpdateInput;
@@ -6,6 +6,7 @@ import AccountUpdateInput = Prisma.AccountUpdateInput;
 import PatternCreateInput = Prisma.PatternCreateInput;
 import TagCreateInput = Prisma.TagCreateInput;
 import TagUpdateInput = Prisma.TagUpdateInput;
+import prisma from "@/lib/store/prisma";
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -14,10 +15,8 @@ interface PrismaTransactionsPageQuery {
 
 export class PrismaDataStore {
 
-  private readonly prismaClient = new PrismaClient()
-
   writeTransactions(transactions: TransactionCreateManyInput[]) {
-    return this.prismaClient.$transaction(
+    return prisma.$transaction(
       async (tx) => {
 
         const result = await tx.transaction.createMany({
@@ -39,7 +38,7 @@ export class PrismaDataStore {
   }
 
   updateTransaction(id: number, transaction: TransactionUpdateInput) {
-    return this.prismaClient.transaction.update(
+    return prisma.transaction.update(
       {
         where: {
           id: id
@@ -52,7 +51,7 @@ export class PrismaDataStore {
   async getTransactions(
     query: PrismaTransactionsPageQuery
   ) {
-    return this.prismaClient.transaction.findMany({
+    return prisma.transaction.findMany({
       skip: query.offset,
       take: query.limit,
       include: {
@@ -67,7 +66,7 @@ export class PrismaDataStore {
   async getTransactionById(
     transactionId: number
   ) {
-    return this.prismaClient.transaction.findUnique({
+    return prisma.transaction.findUnique({
       where: {
         id: transactionId
       }
@@ -75,7 +74,7 @@ export class PrismaDataStore {
   }
 
   async getTransactionCount() {
-    return this.prismaClient.transaction.count()
+    return prisma.transaction.count()
   }
 
   async createAccount(
@@ -84,7 +83,7 @@ export class PrismaDataStore {
     dateField: string,
     amountField: string
   ) {
-    return this.prismaClient.account.create({
+    return prisma.account.create({
       data: {
         amount_field: amountField,
         date_field: dateField,
@@ -95,7 +94,7 @@ export class PrismaDataStore {
   }
 
   async updateAccount(id: number, account: AccountUpdateInput) {
-    return this.prismaClient.account.update(
+    return prisma.account.update(
       {
         data: account,
         where: {
@@ -106,13 +105,13 @@ export class PrismaDataStore {
   }
 
   async getAllAccounts() {
-    return this.prismaClient.account.findMany({
+    return prisma.account.findMany({
       orderBy: {title: "asc"}
     })
   }
 
   async getAccountById(accountId: number): Promise<Account | null> {
-    return this.prismaClient.account.findUnique({
+    return prisma.account.findUnique({
       where: {
         id: accountId
       }
@@ -120,7 +119,7 @@ export class PrismaDataStore {
   }
 
   async createCategory(title: string, budget: number) {
-    return this.prismaClient.category.create({
+    return prisma.category.create({
       data: {
         title: title,
         budget: budget
@@ -129,7 +128,7 @@ export class PrismaDataStore {
   }
 
   async updateCategory(id: number, category: CategoryUpdateInput) {
-    return this.prismaClient.category.update(
+    return prisma.category.update(
       {
         data: category,
         where: {
@@ -140,7 +139,7 @@ export class PrismaDataStore {
   }
 
   async getCategoryById(id: number) {
-    return this.prismaClient.category.findUnique({
+    return prisma.category.findUnique({
       where: {
         id: id
       },
@@ -151,13 +150,13 @@ export class PrismaDataStore {
   }
 
   async getAllCategories() {
-    return this.prismaClient.category.findMany({
+    return prisma.category.findMany({
       orderBy: {title: "asc"}
     })
   }
 
   async createPattern(args: PatternCreateInput) {
-    return this.prismaClient.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx) => {
       await tx.pattern.create({
         data: args
       })
@@ -167,7 +166,7 @@ export class PrismaDataStore {
   }
 
   async updateTag(id: number, input: TagUpdateInput) {
-    return this.prismaClient.tag.update({
+    return prisma.tag.update({
       data: input,
       where: {
         id: id
@@ -176,19 +175,19 @@ export class PrismaDataStore {
   }
 
   async createTag(input: TagCreateInput) {
-    return this.prismaClient.tag.create({
+    return prisma.tag.create({
       data: input
     })
   }
 
   async getAllTags() {
-    return this.prismaClient.tag.findMany({
+    return prisma.tag.findMany({
       orderBy: {title: "asc"}
     })
   }
 
   async getTagById(id: number) {
-    return this.prismaClient.tag.findUnique({
+    return prisma.tag.findUnique({
       where: {
         id: id
       }
