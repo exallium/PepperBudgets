@@ -3,6 +3,7 @@ import TransactionCreateManyInput = Prisma.TransactionCreateManyInput;
 import TransactionUpdateInput = Prisma.TransactionUpdateInput;
 import CategoryUpdateInput = Prisma.CategoryUpdateInput;
 import AccountUpdateInput = Prisma.AccountUpdateInput;
+import PatternCreateInput = Prisma.PatternCreateInput;
 
 interface PrismaTransactionsPageQuery {
   limit: number,
@@ -134,6 +135,12 @@ export class PrismaDataStore {
   async getAllCategories() {
     return this.prismaClient.category.findMany({
       orderBy: {title: "asc"}
+    })
+  }
+
+  async createPattern(args: PatternCreateInput) {
+    return this.prismaClient.pattern.create({
+      data: args
     })
   }
 }
