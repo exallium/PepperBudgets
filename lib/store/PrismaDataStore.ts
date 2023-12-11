@@ -15,10 +15,23 @@ export class PrismaDataStore {
   private readonly prismaClient = new PrismaClient()
 
   writeTransactions(transactions: TransactionCreateManyInput[]) {
-    // Write each to the database
-    return this.prismaClient.transaction.createMany(
-      {
-        data: transactions
+    return this.prismaClient.$transaction(
+      async (tx) => {
+
+        const result = await tx.transaction.createMany({
+          data: transactions
+        })
+
+        // Inserted result.count entries, so we assume the last COUNT entries are our new ones.
+        const ids = await tx.transaction.findMany({
+          select: { id: true },
+          orderBy: { id: 'desc' },
+          take: result.count
+        })
+
+        const idList = ids.map(i => (i.id))
+
+        await tx.$executeRaw`UPDATE "Transaction" SET "categoryId" = (SELECT "categoryId" FROM "Pattern" WHERE "description" LIKE "pattern" ORDER BY LENGTH("pattern") DESC LIMIT 1) WHERE "id" IN (${Prisma.join(idList)});`
       }
     )
   }
