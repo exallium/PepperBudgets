@@ -8,11 +8,6 @@ import PatternCreateInput = Prisma.PatternCreateInput;
 import TagCreateInput = Prisma.TagCreateInput;
 import TagUpdateInput = Prisma.TagUpdateInput;
 
-interface PrismaTransactionsPageQuery {
-  limit: number,
-  offset: number
-}
-
 export class PrismaDataStore {
 
   writeTransactions(transactions: TransactionCreateManyInput[]) {
@@ -54,11 +49,10 @@ export class PrismaDataStore {
   }
 
   async getTransactions(
-    query: PrismaTransactionsPageQuery
+    input?: { take: number, skip: number }
   ) {
     return prisma.transaction.findMany({
-      skip: query.offset,
-      take: query.limit,
+      ...input,
       include: {
         category: true
       },

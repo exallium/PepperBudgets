@@ -9,10 +9,7 @@ import TopLevelHeader from "@/components/molecules/TopLevelHeader";
 
 export default async function CategoriesPage() {
   // TODO -- paging
-  const transactions = await DI.dataStore.getTransactions({
-    limit: 10,
-    offset: 0
-  })
+  const transactions = await DI.dataStore.getTransactions()
 
   const rowData = transactions.map(transaction => ({
     ...transaction,
