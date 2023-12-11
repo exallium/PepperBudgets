@@ -128,6 +128,9 @@ export class PrismaDataStore {
     return this.prismaClient.category.findUnique({
       where: {
         id: id
+      },
+      include: {
+        pattern: true
       }
     })
   }
