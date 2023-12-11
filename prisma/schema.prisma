@@ -22,12 +22,12 @@ model Account {
 model Transaction {
   id          Int       @id @default(autoincrement())
   accountId   Int
-  account     Account   @relation(fields: [accountId], references: [id])
+  account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
   date        DateTime  @db.Date()
   description String    @db.VarChar(255)
   amount      Float     @db.DoublePrecision
   categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   tag         Tag[]
 }
 
@@ -50,5 +50,5 @@ model Pattern {
   id         Int      @id @default(autoincrement())
   pattern    String   @unique @db.VarChar(255)
   categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
