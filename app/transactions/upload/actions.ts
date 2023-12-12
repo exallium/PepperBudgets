@@ -53,7 +53,7 @@ export async function uploadTransactions(_: UploadTransactionsState, formData: F
   const buffer = await csvFile.arrayBuffer()
   const data: {}[] = await new Promise(function (complete) {
     const papaStream = Papa.parse(Papa.NODE_STREAM_INPUT, {
-      header: true
+      header: account.headers
     })
 
     const dataStream = Readable.from(Buffer.from(buffer))
